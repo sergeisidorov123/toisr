@@ -1,3 +1,2 @@
 ﻿  srtoi.cpp
-C:\Users\111\Source\Repos\toisr\srtoi.cpp(888,12): error C2374: targetBrand: переопределение; множественная инициализация
-C:\Users\111\Source\Repos\toisr\srtoi.cpp(878,12): message : см. объявление "targetBrand"
+C:\Users\111\Documents\GitHub\toisr\srtoi.cpp(819,9): error C3861: inputAndInsert: идентификатор не найден
