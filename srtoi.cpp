@@ -21,18 +21,18 @@ struct Guitar {
 
 // Для бренда
 struct Index {
-    string value; 
-    int index;    
+    string value;
+    int index;
 };
 
 // Для количества струн
 struct StringsIndex {
-    int value;    
-    int index;    
+    int value;
+    int index;
 };
 
 // Для третьей части
-struct Node{
+struct Node {
     Guitar data;    // Данные 
     Node* next;     // Указатель на следующий элемент
 
@@ -145,13 +145,13 @@ int binarySearchRecursive(const Index* index, const string& target, int left, in
     int mid = left + (right - left) / 2;
 
     if (index[mid].value == target) {
-        return mid; 
+        return mid;
     }
     else if (index[mid].value < target) {
-        return binarySearchRecursive(index, target, mid + 1, right); 
+        return binarySearchRecursive(index, target, mid + 1, right);
     }
     else {
-        return binarySearchRecursive(index, target, left, mid - 1); 
+        return binarySearchRecursive(index, target, left, mid - 1);
     }
 }
 
@@ -182,13 +182,13 @@ int binarySearchIterative(const StringsIndex* index, int target, int n) {
         int mid = left + (right - left) / 2;
 
         if (index[mid].value == target) {
-            return mid; 
+            return mid;
         }
         else if (index[mid].value < target) {
-            right = mid - 1; 
+            right = mid - 1;
         }
         else {
-            left = mid + 1; 
+            left = mid + 1;
         }
     }
 
@@ -454,8 +454,8 @@ void deleteGuitarByStrings(Guitar*& guitars, int& n, Index*& brandIndex, Strings
 
 //Описание стракта по производителю
 struct BrandTreeNode {
-    string key;   
-    int index;    
+    string key;
+    int index;
     BrandTreeNode* left;
     BrandTreeNode* right;
 
@@ -464,8 +464,8 @@ struct BrandTreeNode {
 
 //Описание стракта по кол-ву струн
 struct StringsTreeNode {
-    int key;      
-    int index;    
+    int key;
+    int index;
     StringsTreeNode* left;
     StringsTreeNode* right;
 
@@ -516,7 +516,7 @@ void inOrderPassBrand(BrandTreeNode* root, const Guitar* guitars) {
         << left << guitar.strings << " струн| "
         << left << guitar.frets << " ладов| "
         << setw(15) << guitar.material << "| "
-        << guitar.shape << "\n\n";
+        << guitar.shape << "\n";
     inOrderPassBrand(root->right, guitars);
 }
 
@@ -530,7 +530,7 @@ void inOrderPassStrings(StringsTreeNode* root, const Guitar* guitars) {
         << left << guitar.strings << " струн| "
         << left << guitar.frets << " ладов| "
         << setw(15) << guitar.material << "| "
-        << guitar.shape << "\n\n";
+        << guitar.shape << "\n";
     inOrderPassStrings(root->right, guitars);
 }
 
@@ -624,7 +624,7 @@ void deleteFromArray(Guitar*& guitars, int& n, int index) {
     n--;
 }
 
-// Удаление узла из дерева
+// Удаление узла из дерева для производителя
 BrandTreeNode* deleteFromBrandTree(BrandTreeNode* root, const string& key, int& deletedIndex) {
     if (root == nullptr) {
         return nullptr;
@@ -638,7 +638,7 @@ BrandTreeNode* deleteFromBrandTree(BrandTreeNode* root, const string& key, int& 
     }
     else {
         // Узел найден
-        deletedIndex = root->index; 
+        deletedIndex = root->index;
 
         // Узел с одним потомком или без
         if (root->left == nullptr) {
@@ -668,7 +668,7 @@ BrandTreeNode* deleteFromBrandTree(BrandTreeNode* root, const string& key, int& 
     return root;
 }
 
-// Удаление узла из дерева
+// Удаление узла из дерева для кол-ва струн
 StringsTreeNode* deleteFromStringsTree(StringsTreeNode* root, int key, int& deletedIndex) {
     if (root == nullptr) {
         return nullptr;
@@ -682,7 +682,7 @@ StringsTreeNode* deleteFromStringsTree(StringsTreeNode* root, int key, int& dele
     }
     else {
         // Узел найден
-        deletedIndex = root->index; 
+        deletedIndex = root->index;
 
         // Узел с одним потомком или без
         if (root->left == nullptr) {
@@ -812,16 +812,6 @@ void insertSorted(Node*& head, const Guitar& guitar) {
     }
 }
 
-// Функция для добавления новой записи
-void addNewRecord(Node*& head) {
-    char choice;
-    do {
-        inputAndInsert(head);
-        cout << "Хотите добавить еще одну гитару? (da/net): ";
-        cin >> choice;
-        cin.ignore();
-    } while (choice == 'da');
-}
 
 // Функция ввода данных и добавления в список 
 void inputAndInsert(Node*& head) {
@@ -844,6 +834,16 @@ void inputAndInsert(Node*& head) {
     insertSorted(head, guitar);
 }
 
+// Функция для добавления новой записи
+void addNewRecord(Node*& head) {
+    string choice;
+    do {
+        inputAndInsert(head);
+        cout << "Хотите добавить еще одну гитару? (da/net): ";
+        cin >> choice;
+    } while (choice == "da");
+}
+
 
 // функция вывода списка по возрастанию производителя и убыванию струн
 void printListAscending(const Node* head) {
@@ -855,7 +855,7 @@ void printListAscending(const Node* head) {
             << left << guitar.strings << " струн| "
             << left << guitar.frets << " ладов| "
             << setw(15) << guitar.material << "| "
-            << guitar.shape << "\n\n";
+            << guitar.shape << "\n";
         current = current->next;
     }
 }
@@ -881,7 +881,7 @@ void printListDescending(const Node* head) {
             << left << guitar.strings << " струн| "
             << left << guitar.frets << " ладов| "
             << setw(15) << guitar.material << "| "
-            << guitar.shape << "\n\n";
+            << guitar.shape << "\n";
         current = current->next;
     }
 
@@ -906,7 +906,7 @@ void searchByBrand(const Node* head, const string& targetBrand) {
                 << left << guitar.strings << " струн| "
                 << left << guitar.frets << " ладов| "
                 << setw(15) << guitar.material << "| "
-                << guitar.shape << "\n\n";
+                << guitar.shape << "\n";
             found = true;
         }
         current = current->next;
@@ -930,7 +930,7 @@ void searchByStrings(const Node* head, int targetStrings) {
                 << left << guitar.strings << " струн| "
                 << left << guitar.frets << " ладов| "
                 << setw(15) << guitar.material << "| "
-                << guitar.shape << "\n\n";
+                << guitar.shape << "\n";
             found = true;
         }
         current = current->next;
@@ -1037,19 +1037,20 @@ int main() {
     StringsIndex* stringsIndex = new StringsIndex[n];
     createIndexes(guitars, n, brandIndex, stringsIndex);
 
-    printGuitars(guitars, n);
+    /*printGuitars(guitars, n);*/
     printSortedGuitars(guitars, n, brandIndex, stringsIndex);
-
+    searchByBrandRecursive(guitars, n, brandIndex, "F");
+    searchByStringsIterative(guitars, n, stringsIndex, 1);
     // Редактирование записи по производителю
-    string targetBrand;
-    cout << "\nВведите производителя гитары для редактирования: ";
-    getline(cin, targetBrand);
+    int targetStrings;
+    cout << "\nВведите кол-во струн гитары для редактирования: ";
+    cin >> targetStrings;
 
-    int count = printGuitarsByBrand(guitars, brandIndex, n, targetBrand);
+    int count = printGuitarsByStrings(guitars, stringsIndex, n, targetStrings);
 
     if (count == 1) {
         for (int i = 0; i < n; i++) {
-            if (brandIndex[i].value == targetBrand) {
+            if (stringsIndex[i].value == targetStrings) {
                 editGuitar(guitars, n, brandIndex, stringsIndex, brandIndex[i].index);
                 break;
             }
@@ -1069,6 +1070,7 @@ int main() {
     }
 
     // Удаление записи по производителю
+    string targetBrand;
     cout << "\nВведите производителя гитары для удаления: ";
     getline(cin, targetBrand);
 
@@ -1096,13 +1098,19 @@ int main() {
 
     //ЧАСТЬ 2
 
-    // Создание бинарного дерева по атрибуту производителю
+    // Создание бинарного дерева по атрибут
     BrandTreeNode* brandTree = nullptr;
     StringsTreeNode* stringsTree = nullptr;
     for (int i = 0; i < n; i++) {
         brandTree = insertBrand(brandTree, guitars[i].brand, i);
         stringsTree = insertStrings(stringsTree, guitars[i].strings, i);
     }
+
+    cout << "Гитары, отсортированные по производителю по возрастанию:\n";
+    inOrderPassBrand(brandTree, guitars);
+
+    cout << "Гитары, отсортированные по количеству струн по возрастанию:\n";
+    inOrderPassStrings(stringsTree, guitars);
 
     cout << "Гитары, отсортированные по производителю по убыванию:\n";
     unOrderPassBrand(brandTree, guitars);
@@ -1116,33 +1124,46 @@ int main() {
     getline(cin, targetBrand);
     searchByBrand(brandTree, guitars, targetBrand);
 
+    // Поиск гитары по ключу
+    int targetStrings;
+    cout << "\nВведите кол-во струн для поиска: ";
+    cin >> targetStrings;
+    searchByStrings(stringsTree, guitars, targetStrings);
+
     // Вывод данных до удаления
     cout << "До удаления:\n";
     inOrderPassBrand(brandTree, guitars);
 
-    // Удаление по brand
-    string targetBrand = "JACKSON";
+    //Удаление по brand
+    string targetBrand;
+    cout << "\nВведите производителя для удаления: ";
+    getline(cin, targetBrand);
     deleteByBrand(guitars, n, brandTree, stringsTree, targetBrand);
 
     // Вывод данных после удаления по производителю
-    cout << "\nПосле удаления по произвоидителю:\n";
+    cout << "\nПосле удаления по производителю:\n";
     inOrderPassBrand(brandTree, guitars);
 
+
     // Удаление по strings
-    int targetStrings = 6;
+    int targetStrings;
+    cin >> targetStrings;
     deleteByStrings(guitars, n, brandTree, stringsTree, targetStrings);
 
     // Вывод данных после удаления по струнам
     cout << "\nПосле удаления по кол-ву струн:\n";
-    inOrderPassBrand(brandTree, guitars);
+    inOrderPassStrings(stringsTree, guitars);
 
 
-    //Освобождение памяти
+    // Освобождение памяти
     delete[] guitars;
 
-    //ЧАСТЬ 3
-
+    ////ЧАСТЬ 3
+    printGuitars(guitars, n);
     Node* head = nullptr;
+    for (int i = 0; i < n; i++) {
+        insertSorted(head, guitars[i]);
+    }
     // Добавление записей
     addNewRecord(head);
 
@@ -1153,16 +1174,17 @@ int main() {
     printListDescending(head);
 
     // Поиск по производителю
-    string targetBrand = "IBANEZ";
-    searchByBrand(head, targetBrand);
+    string targetBrand = "IBANE1Z";
+    //searchByBrand(head, targetBrand);
 
     // Поиск по количеству струн
-    int targetStrings = 6;
-    searchByStrings(head, targetStrings);
+    int targetStrings = 1;
+    //searchByStrings(head, targetStrings);
 
     // Удаление по производителю
     deleteByBrand(head, targetBrand);
 
     // Удаление по количеству струн
     deleteByStrings(head, targetStrings);
+    printListDescending(head);
 }
