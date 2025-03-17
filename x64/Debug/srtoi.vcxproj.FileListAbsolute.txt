@@ -1,1 +1,2 @@
 C:\Users\111\Documents\GitHub\toisr\x64\Debug\srtoi.exe
+C:\Users\111\Source\Repos\toisr222\x64\Debug\srtoi.exe

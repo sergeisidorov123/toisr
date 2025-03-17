@@ -786,6 +786,155 @@ void deleteByStrings(Guitar*& guitars, int& n, BrandTreeNode*& brandTree, String
     cout << "Гитара с количеством струн '" << targetStrings << "' успешно удалена.\n";
 }
 
+
+// Балансировка 
+
+
+// Преобразование дерева в односвязный список
+BrandTreeNode* treeToList(BrandTreeNode* root, BrandTreeNode*& prev) {
+    if (root == nullptr) return nullptr;
+
+    // Рекурсивно преобразуем левое поддерево
+    treeToList(root->left, prev);
+
+    // Связываем текущий узел с предыдущим
+    root->left = prev;
+    if (prev != nullptr) {
+        prev->right = root;
+    }
+    prev = root;
+
+    // Рекурсивно преобразуем правое поддерево
+    treeToList(root->right, prev);
+
+    return root;
+}
+
+// Построение сбалансированного дерева из односвязного списка
+BrandTreeNode* listToTree(BrandTreeNode*& head, int start, int end) {
+    if (start > end || head == nullptr) return nullptr;
+
+    // Находим середину списка
+    int mid = (start + end) / 2;
+
+    // Рекурсивно строим левое поддерево
+    BrandTreeNode* leftChild = listToTree(head, start, mid - 1);
+
+    // Текущий узел становится корнем поддерева
+    BrandTreeNode* root = head;
+    root->left = leftChild;
+
+    // Перемещаем указатель на следующий узел
+    head = head->right;
+
+    // Рекурсивно строим правое поддерево
+    root->right = listToTree(head, mid + 1, end);
+
+    return root;
+}
+
+// Основная функция для балансировки дерева
+BrandTreeNode* balanceBrandTree(BrandTreeNode* root) {
+    if (root == nullptr) return nullptr;
+
+    // Преобразуем дерево в односвязный список
+    BrandTreeNode* prev = nullptr;
+    treeToList(root, prev);
+
+    // Находим начало списка
+    BrandTreeNode* head = root;
+    while (head->left != nullptr) {
+        head = head->left;
+    }
+
+    // Подсчитываем количество узлов в списке
+    int count = 0;
+    BrandTreeNode* temp = head;
+    while (temp != nullptr) {
+        count++;
+        temp = temp->right;
+    }
+
+    // Преобразуем список в сбалансированное дерево
+    return listToTree(head, 0, count - 1);
+}
+
+// Преобразование дерева в односвязный список
+StringsTreeNode* treeToList(StringsTreeNode* root, StringsTreeNode*& prev) {
+    if (root == nullptr) return nullptr;
+
+    // Рекурсивно преобразуем левое поддерево
+    treeToList(root->left, prev);
+
+    // Связываем текущий узел с предыдущим
+    root->left = prev;
+    if (prev != nullptr) {
+        prev->right = root;
+    }
+    prev = root;
+
+    // Рекурсивно преобразуем правое поддерево
+    treeToList(root->right, prev);
+
+    return root;
+}
+
+// Построение сбалансированного дерева из односвязного списка
+StringsTreeNode* listToTree(StringsTreeNode*& head, int start, int end) {
+    if (start > end || head == nullptr) return nullptr;
+
+    // Находим середину списка
+    int mid = (start + end) / 2;
+
+    // Рекурсивно строим левое поддерево
+    StringsTreeNode* leftChild = listToTree(head, start, mid - 1);
+
+    // Текущий узел становится корнем поддерева
+    StringsTreeNode* root = head;
+    root->left = leftChild;
+
+    // Перемещаем указатель на следующий узел
+    head = head->right;
+
+    // Рекурсивно строим правое поддерево
+    root->right = listToTree(head, mid + 1, end);
+
+    return root;
+}
+
+// Основная функция для балансировки дерева
+StringsTreeNode* balanceStringsTree(StringsTreeNode* root) {
+    if (root == nullptr) return nullptr;
+
+    // Преобразуем дерево в односвязный список
+    StringsTreeNode* prev = nullptr;
+    treeToList(root, prev);
+
+    // Находим начало списка
+    StringsTreeNode* head = root;
+    while (head->left != nullptr) {
+        head = head->left;
+    }
+
+    // Подсчитываем количество узлов в списке
+    int count = 0;
+    StringsTreeNode* temp = head;
+    while (temp != nullptr) {
+        count++;
+        temp = temp->right;
+    }
+
+    // Преобразуем список в сбалансированное дерево
+    return listToTree(head, 0, count - 1);
+}
+
+
+// Демонстрация работы билансировки
+int getHeight(BrandTreeNode* root) {
+    if (root == nullptr) return 0;
+    return 1 + max(getHeight(root->left), getHeight(root->right));
+}
+
 // Часть 3
 
 // Функция для вставки элемента в список 
@@ -1037,63 +1186,63 @@ int main() {
     StringsIndex* stringsIndex = new StringsIndex[n];
     createIndexes(guitars, n, brandIndex, stringsIndex);
 
-    /*printGuitars(guitars, n);*/
-    printSortedGuitars(guitars, n, brandIndex, stringsIndex);
-    searchByBrandRecursive(guitars, n, brandIndex, "F");
-    searchByStringsIterative(guitars, n, stringsIndex, 1);
-    // Редактирование записи по производителю
-    int targetStrings;
-    cout << "\nВведите кол-во струн гитары для редактирования: ";
-    cin >> targetStrings;
+    ///*printGuitars(guitars, n);*/
+    //printSortedGuitars(guitars, n, brandIndex, stringsIndex);
+    //searchByBrandRecursive(guitars, n, brandIndex, "F");
+    //searchByStringsIterative(guitars, n, stringsIndex, 1);
+    //// Редактирование записи по производителю
+    //int targetStrings;
+    //cout << "\nВведите кол-во струн гитары для редактирования: ";
+    //cin >> targetStrings;
 
-    int count = printGuitarsByStrings(guitars, stringsIndex, n, targetStrings);
+    //int count = printGuitarsByStrings(guitars, stringsIndex, n, targetStrings);
 
-    if (count == 1) {
-        for (int i = 0; i < n; i++) {
-            if (stringsIndex[i].value == targetStrings) {
-                editGuitar(guitars, n, brandIndex, stringsIndex, brandIndex[i].index);
-                break;
-            }
-        }
-        cout << "\nОбновленный список гитар:\n";
-        printGuitars(guitars, n);
-        printSortedGuitars(guitars, n, brandIndex, stringsIndex);
-    }
-    else if (count > 1) {
-        int index = selectGuitarIndex(n);
-        if (index != -1) {
-            editGuitar(guitars, n, brandIndex, stringsIndex, index);
-        }
-        cout << "\nОбновленный список гитар:\n";
-        printGuitars(guitars, n);
-        printSortedGuitars(guitars, n, brandIndex, stringsIndex);
-    }
+    //if (count == 1) {
+    //    for (int i = 0; i < n; i++) {
+    //        if (stringsIndex[i].value == targetStrings) {
+    //            editGuitar(guitars, n, brandIndex, stringsIndex, brandIndex[i].index);
+    //            break;
+    //        }
+    //    }
+    //    cout << "\nОбновленный список гитар:\n";
+    //    printGuitars(guitars, n);
+    //    printSortedGuitars(guitars, n, brandIndex, stringsIndex);
+    //}
+    //else if (count > 1) {
+    //    int index = selectGuitarIndex(n);
+    //    if (index != -1) {
+    //        editGuitar(guitars, n, brandIndex, stringsIndex, index);
+    //    }
+    //    cout << "\nОбновленный список гитар:\n";
+    //    printGuitars(guitars, n);
+    //    printSortedGuitars(guitars, n, brandIndex, stringsIndex);
+    //}
 
-    // Удаление записи по производителю
-    string targetBrand;
-    cout << "\nВведите производителя гитары для удаления: ";
-    getline(cin, targetBrand);
+    //// Удаление записи по производителю
+    //string targetBrand;
+    //cout << "\nВведите производителя гитары для удаления: ";
+    //getline(cin, targetBrand);
 
-    deleteGuitarByBrand(guitars, n, brandIndex, stringsIndex, targetBrand);
+    //deleteGuitarByBrand(guitars, n, brandIndex, stringsIndex, targetBrand);
 
-    cout << "\nОбновленный список гитар:\n";
-    printGuitars(guitars, n);
-    printSortedGuitars(guitars, n, brandIndex, stringsIndex);
+    //cout << "\nОбновленный список гитар:\n";
+    //printGuitars(guitars, n);
+    //printSortedGuitars(guitars, n, brandIndex, stringsIndex);
 
-    // Удаление записи по количеству струн
-    int targetStrings;
-    cout << "\nВведите количество струн для удаления: ";
-    cin >> targetStrings;
+    //// Удаление записи по количеству струн
+    //int targetStrings;
+    //cout << "\nВведите количество струн для удаления: ";
+    //cin >> targetStrings;
 
-    deleteGuitarByStrings(guitars, n, brandIndex, stringsIndex, targetStrings);
+    //deleteGuitarByStrings(guitars, n, brandIndex, stringsIndex, targetStrings);
 
-    cout << "\nОбновленный список гитар:\n";
-    printGuitars(guitars, n);
-    printSortedGuitars(guitars, n, brandIndex, stringsIndex);
+    //cout << "\nОбновленный список гитар:\n";
+    //printGuitars(guitars, n);
+    //printSortedGuitars(guitars, n, brandIndex, stringsIndex);
 
-    delete[] guitars;
-    delete[] brandIndex;
-    delete[] stringsIndex;
+    //delete[] guitars;
+    //delete[] brandIndex;
+    //delete[] stringsIndex;
 
 
     //ЧАСТЬ 2
@@ -1106,85 +1255,94 @@ int main() {
         stringsTree = insertStrings(stringsTree, guitars[i].strings, i);
     }
 
-    cout << "Гитары, отсортированные по производителю по возрастанию:\n";
-    inOrderPassBrand(brandTree, guitars);
-
-    cout << "Гитары, отсортированные по количеству струн по возрастанию:\n";
-    inOrderPassStrings(stringsTree, guitars);
-
-    cout << "Гитары, отсортированные по производителю по убыванию:\n";
-    unOrderPassBrand(brandTree, guitars);
-
-    cout << "Гитары, отсортированные по количеству струн по убыванию:\n";
-    unOrderPassStrings(stringsTree, guitars);
-
-    // Поиск гитары по производителю
-    string targetBrand;
-    cout << "\nВведите производителя для поиска: ";
-    getline(cin, targetBrand);
-    searchByBrand(brandTree, guitars, targetBrand);
-
-    // Поиск гитары по ключу
-    int targetStrings;
-    cout << "\nВведите кол-во струн для поиска: ";
-    cin >> targetStrings;
-    searchByStrings(stringsTree, guitars, targetStrings);
-
-    // Вывод данных до удаления
-    cout << "До удаления:\n";
-    inOrderPassBrand(brandTree, guitars);
-
-    //Удаление по brand
-    string targetBrand;
-    cout << "\nВведите производителя для удаления: ";
-    getline(cin, targetBrand);
-    deleteByBrand(guitars, n, brandTree, stringsTree, targetBrand);
-
-    // Вывод данных после удаления по производителю
-    cout << "\nПосле удаления по производителю:\n";
-    inOrderPassBrand(brandTree, guitars);
+    //cout << "Гитары, отсортированные по производителю по возрастанию:\n";
+    //inOrderPassBrand(brandTree, guitars);
 
 
-    // Удаление по strings
-    int targetStrings;
-    cin >> targetStrings;
-    deleteByStrings(guitars, n, brandTree, stringsTree, targetStrings);
+    int heightBefore = getHeight(brandTree);
+    cout << "Высота дерева до балансировки: " << heightBefore << "\n";
 
-    // Вывод данных после удаления по струнам
-    cout << "\nПосле удаления по кол-ву струн:\n";
-    inOrderPassStrings(stringsTree, guitars);
+    brandTree = balanceBrandTree(brandTree);
+
+    int heightAfter = getHeight(brandTree);
+    cout << "Высота дерева после балансировки: " << heightAfter << "\n";
+
+    //cout << "Гитары, отсортированные по количеству струн по возрастанию:\n";
+    //inOrderPassStrings(stringsTree, guitars);
+
+    //cout << "Гитары, отсортированные по производителю по убыванию:\n";
+    //unOrderPassBrand(brandTree, guitars);
+
+    //cout << "Гитары, отсортированные по количеству струн по убыванию:\n";
+    //unOrderPassStrings(stringsTree, guitars);
+
+    //// Поиск гитары по производителю
+    //string targetBrand;
+    //cout << "\nВведите производителя для поиска: ";
+    //getline(cin, targetBrand);
+    //searchByBrand(brandTree, guitars, targetBrand);
+
+    //// Поиск гитары по ключу
+    //int targetStrings;
+    //cout << "\nВведите кол-во струн для поиска: ";
+    //cin >> targetStrings;
+    //searchByStrings(stringsTree, guitars, targetStrings);
+
+    //// Вывод данных до удаления
+    //cout << "До удаления:\n";
+    //inOrderPassBrand(brandTree, guitars);
+
+    ////Удаление по brand
+    //string targetBrand;
+    //cout << "\nВведите производителя для удаления: ";
+    //getline(cin, targetBrand);
+    //deleteByBrand(guitars, n, brandTree, stringsTree, targetBrand);
+
+    //// Вывод данных после удаления по производителю
+    //cout << "\nПосле удаления по производителю:\n";
+    //inOrderPassBrand(brandTree, guitars);
 
 
-    // Освобождение памяти
-    delete[] guitars;
+    //// Удаление по strings
+    //int targetStrings;
+    //cin >> targetStrings;
+    //deleteByStrings(guitars, n, brandTree, stringsTree, targetStrings);
+
+    //// Вывод данных после удаления по струнам
+    //cout << "\nПосле удаления по кол-ву струн:\n";
+    //inOrderPassStrings(stringsTree, guitars);
+
+
+    //// Освобождение памяти
+    //delete[] guitars;
 
     ////ЧАСТЬ 3
-    printGuitars(guitars, n);
-    Node* head = nullptr;
-    for (int i = 0; i < n; i++) {
-        insertSorted(head, guitars[i]);
-    }
-    // Добавление записей
-    addNewRecord(head);
+    //printGuitars(guitars, n);
+    //Node* head = nullptr;
+    //for (int i = 0; i < n; i++) {
+    //    insertSorted(head, guitars[i]);
+    //}
+    //// Добавление записей
+    //addNewRecord(head);
 
-    // Вывод списка по возрастанию
-    printListAscending(head);
+    //// Вывод списка по возрастанию
+    //printListAscending(head);
 
-    // Вывод списка по убыванию
-    printListDescending(head);
+    //// Вывод списка по убыванию
+    //printListDescending(head);
 
-    // Поиск по производителю
-    string targetBrand = "IBANE1Z";
-    //searchByBrand(head, targetBrand);
+    //// Поиск по производителю
+    //string targetBrand = "IBANE1Z";
+    ////searchByBrand(head, targetBrand);
 
-    // Поиск по количеству струн
-    int targetStrings = 1;
-    //searchByStrings(head, targetStrings);
+    //// Поиск по количеству струн
+    //int targetStrings = 1;
+    ////searchByStrings(head, targetStrings);
 
-    // Удаление по производителю
-    deleteByBrand(head, targetBrand);
+    //// Удаление по производителю
+    //deleteByBrand(head, targetBrand);
 
-    // Удаление по количеству струн
-    deleteByStrings(head, targetStrings);
-    printListDescending(head);
+    //// Удаление по количеству струн
+    //deleteByStrings(head, targetStrings);
+    //printListDescending(head);
 }
